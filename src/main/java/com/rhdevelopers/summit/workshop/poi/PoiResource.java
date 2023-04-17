@@ -53,6 +53,20 @@ public class PoiResource {
                 .entity("inserted "+count+" custom poi record(s) for type '"+poiType+"'")
                 .build();
     }
+    
+    @POST
+    @Path("add/point")
+    @APIResponse(
+            responseCode = "201",
+            description = "custom points-of-interest created",
+            content = @Content(mediaType = MediaType.TEXT_PLAIN)
+    )
+    public Response loadCustomPoiForType(PoiRecord record) {
+        var count = poiService.insertCustomPoiRecordsForType("custom", List.of(record));
+        return Response.created(UriBuilder.fromPath("poi/find/custom/all").build())
+                .entity("inserted "+count+" custom poi record(s) for type")
+                .build();
+    }
 
     @GET
     @Path("find/all")
